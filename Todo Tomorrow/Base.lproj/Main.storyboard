@@ -32,7 +32,14 @@
                             <outlet property="delegate" destination="w9H-Tq-AXQ" id="uA1-MI-6UR"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Todo Tomorrow" id="WCF-OS-KO4"/>
+                    <navigationItem key="navigationItem" title="Todo Tomorrow" id="WCF-OS-KO4">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="I6X-aB-COk">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="addNewItem:" destination="w9H-Tq-AXQ" id="PkN-DP-ajI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9wc-lu-53C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

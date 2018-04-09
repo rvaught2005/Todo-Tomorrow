@@ -12,7 +12,7 @@ class TodoListViewController: UITableViewController {
     
  
 
-    let itemArray = ["Find Mike", "Buy Eggs", "Fill out Application"]
+    var itemArray = ["Find Mike", "Buy Eggs", "Fill out Application"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,5 +48,37 @@ class TodoListViewController: UITableViewController {
         print(itemArray[indexPath.row])
     
     }
+    
+    // MARK - Add new items
+    @IBAction func addNewItem(_ sender: UIBarButtonItem) {
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Add New ToDo Item", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            // what will happen once the user clicks the Add Item button on our UIAlert.
+            print(textField.text!)
+            self.itemArray.append(textField.text!)
+            // This was a learning example of how the data can be found while debugging.
+            // Inserting a break at the above line of code will stop the program just before this line of code is executed.
+            // In the debug console you can type print itemArray and it will show the three hard coded items from itemArray.
+            // You can then click on the step over icon; which is the fourth item from the left above the adjacent pane to the left of the debug console.
+            // At this point if you type print itemArray in the debug console again it will show the fourth item that has been appended to itemArray.
+            self.tableView.reloadData()
+            // This line of code updates the table view to show the new data.
+            
+            print("Success")
+        }
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            // print(alertTextField.text)
+            textField = alertTextField
+            
+        }
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
 }
 
