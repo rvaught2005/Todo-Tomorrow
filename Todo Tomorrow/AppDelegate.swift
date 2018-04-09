@@ -15,18 +15,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Called when your app gets loaded up. Takes place before view did load.
+        print("didFinishLaunchingWithOptions")
+        print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)
+        // Example of printing the value of user defaults to a .plist file.
+        
+        // It looks like this in the debug console:
+        //Users/ryanvaught/Library/Developer/CoreSimulator/Devices/AF68CA77-ECE9-4E93-98E0-1EA8A5E7A913/data/Containers/Data/Application/1B460EEA-49E5-4EBF-849A-5DCE5D4711C2/Documents
+        
+        // This file is not easy to find. Probably hidden.
+        
         return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+       // This method is called, for example, when someone gets a phone call while filling out a form.
+        print("applicationDidEnterBackground")
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+       // This happens when the app disapears from the screen.
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -38,7 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        // Called when the app is terminated.
+        print("applicationWillTerminate")
     }
 
 

@@ -13,10 +13,16 @@ class TodoListViewController: UITableViewController {
  
 
     var itemArray = ["Find Mike", "Buy Eggs", "Fill out Application"]
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        if let items = defaults.array(forKey: "ToDoListArray") as? [String] {
+            itemArray = items
+        }
     }
 
    
@@ -64,12 +70,14 @@ class TodoListViewController: UITableViewController {
             // In the debug console you can type print itemArray and it will show the three hard coded items from itemArray.
             // You can then click on the step over icon; which is the fourth item from the left above the adjacent pane to the left of the debug console.
             // At this point if you type print itemArray in the debug console again it will show the fourth item that has been appended to itemArray.
+            
+            self.defaults.set(self.itemArray, forKey: "ToDoListArray")
             self.tableView.reloadData()
             // This line of code updates the table view to show the new data.
             
             print("Success")
         }
-        alert.addTextField { (alertTextField) in
+            alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Create new item"
             // print(alertTextField.text)
             textField = alertTextField
