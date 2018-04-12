@@ -13,29 +13,31 @@ class TodoListViewController: UITableViewController {
  
 
     var itemArray = [Item]()
-   
-    let defaults = UserDefaults.standard
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+  
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        let newItem1 = Item()
-        newItem1.title = "Find Mike"
-        itemArray.append(newItem1)
-        
-        let newItem2 = Item()
-        newItem2.title = "Find Mike"
-        itemArray.append(newItem2)
-        
-        let newItem3 = Item()
-        newItem3.title = "Find Mike"
-        itemArray.append(newItem3)
+     
+//        let newItem1 = Item()
+//        newItem1.title = "Find Mike"
+//        itemArray.append(newItem1)
+//
+//        let newItem2 = Item()
+//        newItem2.title = "Find Mike"
+//        itemArray.append(newItem2)
+//
+//        let newItem3 = Item()
+//        newItem3.title = "Find Mike"
+//        itemArray.append(newItem3)
  
         
-        if let items = defaults.array(forKey: "ToDoListArray") as? [Item] {
-            itemArray = items
-        }
+//        if let items = defaults.array(forKey: "ToDoListArray") as? [Item] {
+//            itemArray = items
+//        }
+        
+        loadItems()
     }
 
    
@@ -74,6 +76,7 @@ class TodoListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        saveItms()
         
 //        if itemArray[indexPath.row].done == false {
 //            itemArray[indexPath.row].done = true
@@ -115,9 +118,19 @@ class TodoListViewController: UITableViewController {
             // You can then click on the step over icon; which is the fourth item from the left above the adjacent pane to the left of the debug console.
             // At this point if you type print itemArray in the debug console again it will show the fourth item that has been appended to itemArray.
             
-            self.defaults.set(self.itemArray, forKey: "ToDoListArray")
-            self.tableView.reloadData()
-            // This line of code updates the table view to show the new data.
+        
+            
+            self.saveItms()
+            
+            
+            //self.defaults.set(self.itemArray, forKey: "ToDoListArray")
+            //[User Defaults] Attempt to set a non-property-list object.
+            //This is the extent of UserDefaults; the above message shows its limitations. It cannot save custom types or custom objects like the ones we have created.
+            //At this point we have to abandon ship with UserDefaults!
+            //WARNING: Don't use UserDefaults for anthing more complicated than a switch selcetion or a volume setting.
+            
+       
+            
             
             print("Success")
         }
@@ -132,5 +145,30 @@ class TodoListViewController: UITableViewController {
         
     }
     
+    //MARK - Model Manipulation Methods
+    
+    func saveItms() {
+        let encoder = PropertyListEncoder()
+        
+        do {
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+            print(dataFilePath!)
+        } catch {
+            print("Error encoding itemArray, \(error)")
+        }
+        self.tableView.reloadData()
+        // This line of code updates the table view to show the new data.
+    }
+    func loadItems() {
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+                itemArray = try decoder.decode([Item].self, from: data)
+            } catch {
+                print("Error encoding itemArray, \(error)")
+            }
+        }
+    }
 }
 
