@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Todo Tomorrow-->
+        <!--Items-->
         <scene sceneID="3GV-UV-IIs">
             <objects>
                 <tableViewController id="w9H-Tq-AXQ" customClass="TodoListViewController" customModule="Todo_Tomorrow" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,9 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="Gqd-Jw-LkJ">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="w9H-Tq-AXQ" id="1Hl-HH-woi"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoItemCell" id="mZ5-ys-pJz">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mZ5-ys-pJz" id="GEm-8z-DYS">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -32,7 +40,7 @@
                             <outlet property="delegate" destination="w9H-Tq-AXQ" id="uA1-MI-6UR"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Todo Tomorrow" id="WCF-OS-KO4">
+                    <navigationItem key="navigationItem" title="Items" id="WCF-OS-KO4">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="I6X-aB-COk">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -60,12 +68,51 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="w9H-Tq-AXQ" kind="relationship" relationship="rootViewController" id="6SB-sm-t9U"/>
+                        <segue destination="dcS-0c-XlE" kind="relationship" relationship="rootViewController" id="TgM-bN-ryI"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gyV-88-3IU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="824.79999999999995" y="117.39130434782609"/>
+            <point key="canvasLocation" x="-41" y="117"/>
+        </scene>
+        <!--Todo Tomorrow-->
+        <scene sceneID="pOh-NJ-NeS">
+            <objects>
+                <tableViewController id="dcS-0c-XlE" customClass="CatorViewController" customModule="Todo_Tomorrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cYI-Nc-e83">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CatorCell" id="FuU-Sx-EKv">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FuU-Sx-EKv" id="fDz-aQ-X0b">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="dcS-0c-XlE" id="9Ly-nU-sPq"/>
+                            <outlet property="delegate" destination="dcS-0c-XlE" id="7lV-4D-ib4"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Todo Tomorrow" id="NuU-Hw-M8a">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Vli-hj-i7L">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="addButtonPressed:" destination="dcS-0c-XlE" id="rB6-yB-QwV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="w9H-Tq-AXQ" kind="show" identifier="goToItems" id="TDs-cg-X9Q"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tbV-Ei-iPj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="834" y="117"/>
         </scene>
     </scenes>
 </document>
