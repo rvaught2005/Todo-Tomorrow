@@ -75,7 +75,7 @@
             </objects>
             <point key="canvasLocation" x="-41" y="117"/>
         </scene>
-        <!--Todo Tomorrow-->
+        <!--Todo Categories-->
         <scene sceneID="pOh-NJ-NeS">
             <objects>
                 <tableViewController id="dcS-0c-XlE" customClass="CatorViewController" customModule="Todo_Tomorrow" customModuleProvider="target" sceneMemberID="viewController">
@@ -98,7 +98,7 @@
                             <outlet property="delegate" destination="dcS-0c-XlE" id="7lV-4D-ib4"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Todo Tomorrow" id="NuU-Hw-M8a">
+                    <navigationItem key="navigationItem" title="Todo Categories" id="NuU-Hw-M8a">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Vli-hj-i7L">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>

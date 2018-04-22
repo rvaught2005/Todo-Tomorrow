@@ -14,6 +14,13 @@ class TodoListViewController: UITableViewController {
  
 
     var itemArray = [Item]()
+    
+    var selectedCator: Cator? {
+        didSet {
+          
+            loadItems()
+        }
+    }
    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     //With the line of code we are tapping into the UIApplication class, we are getting the shared singleton object, which corresponds to current app as an object, tapping into its delegate, which has the data type of an optional UIapplicationdelegate, and we are casting it into our class AppDelegate. Because they both inherit from the same supper class UIApplicationDelegate, this "UIApplication.shared.delegate as! AppDelegate" is perfectly valid; which enables us to have acces to our AppDelegate as an object. When we append "persistentContainer.viewContext" we find that Xcode predicts the property, persistentContainer, as well as the viewContext of that persistentContainer.
@@ -43,7 +50,6 @@ class TodoListViewController: UITableViewController {
 //            itemArray = items
 //        }
         
-        loadItems()
     }
 
    
@@ -85,10 +91,11 @@ class TodoListViewController: UITableViewController {
         
         
         //Removing items from Core Data.
-        itemArray.remove(at: indexPath.row)
-        //First remove item from the populated array called itemArray.
-        context.delete(itemArray[indexPath.row])
-        //Delete the temporary note of this item within the context; or scratchpad.
+        //context.delete(itemArray[indexPath.row])
+        //First, delete the temporary note of this item within the context; or scratchpad.
+        //itemArray.remove(at: indexPath.row)
+        //Remove item from the populated array called itemArray.
+        
         saveItems()
         //Finally, save the changes.
         
@@ -127,6 +134,7 @@ class TodoListViewController: UITableViewController {
             let newItem = Item(context: self.context)
             newItem.title = textField.text!
             newItem.done = false
+            newItem.parentCator = self.selectedCator
             self.itemArray.append(newItem)
             // This was a learning example of how the data can be found while debugging.
             // Inserting a break at the above line of code will stop the program just before this line of code is executed.
@@ -173,9 +181,18 @@ class TodoListViewController: UITableViewController {
         self.tableView.reloadData()
         // This line of code updates the table view to show the new data.
     }
-    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
     //The word "with" indicates an external parameter
     //=Item.fetchRequest() is the default value that is used if no request is specified
+        
+        let catorPredicate = NSPredicate(format: "parentCator.name MATCHES %@", selectedCator!.name!)
+        
+        if let additonalPredicate = predicate {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [catorPredicate, additonalPredicate])
+        } else {
+            request.predicate = catorPredicate
+        }
+        
         
         do {
            itemArray = try context.fetch(request)
@@ -194,17 +211,18 @@ extension TodoListViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let request : NSFetchRequest<Item> = Item.fetchRequest()
-        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
         // [cd] makes the query insisative to case and diacritics.
         
         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         
-        loadItems(with: request)
+        loadItems(with: request, predicate: predicate)
         
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchBar.text?.count == 0{
+        if searchBar.text?.count == 0 {
             loadItems()
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
